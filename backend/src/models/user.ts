@@ -18,11 +18,11 @@ export const getUserByUsername = async (
   return data;
 };
 
-export const createUser = async (
-  username: string,
-  password: string,
-  role: string
-): Promise<PostgrestSingleResponse<any> | null> => {
+export const createUser = async ({
+  username,
+  password,
+  role,
+}: User): Promise<PostgrestSingleResponse<any> | null> => {
   const hashedPassword = await bcrypt.hash(password, 10);
   const response = await supabase
     .from("users")

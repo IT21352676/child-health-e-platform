@@ -7,11 +7,12 @@ export enum ServiceTypes {
 }
 
 export interface Service {
-  serviceId: string;
+  serviceId?: string;
   serviceType: ServiceTypes;
   serviceDate: string;
   patientId: string;
   providerId: string;
+  status: "opened" | "closed";
 }
 
 export interface ServiceWithUsers extends Service {

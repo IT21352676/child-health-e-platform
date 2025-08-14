@@ -1,18 +1,25 @@
-import { ServiceTypes } from "../types/services";
+import { Service, ServiceTypes } from "../types/services";
+import { User } from "../types/user";
 import { supabase } from "../utils/db";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
-const createService = async ({
+export const getAllServiceTypes = () => {
+  const services = Object.entries(ServiceTypes).map((e) => ({
+    type: e[0],
+    value: e[1],
+  }));
+
+  return services;
+};
+
+export const createService = async ({
   serviceType,
   serviceDate,
   patientId,
   providerId,
-}: {
-  serviceType: ServiceTypes;
-  serviceDate: string;
-  patientId: string;
-  providerId: string;
-}) => {
-  const { data, error } = await supabase
+  status,
+}: Service): Promise<PostgrestSingleResponse<any> | null> => {
+  const response = await supabase
     .from("services")
     .insert([
       {
@@ -20,32 +27,43 @@ const createService = async ({
         service_date: serviceDate,
         patient_id: patientId,
         provider_id: providerId,
+        status: status,
       },
     ])
     .select();
 
+  if (response.error) {
+    console.error("Error creating service:", response.error);
+  }
+  return response;
+};
+
+export const getServicesByPatient = async (patientId: User["id"]) => {
+  //console.log(patientId);
+  const { data, error } = await supabase
+    .from("services")
+    .select(
+      `
+      service_id,
+      service_type,
+      service_date,
+      status,
+      patient:users!patient_id(id, username, role),
+      provider:users!provider_id(id, username, role)
+    `
+    )
+    .eq("patient_id", patientId);
+
   if (error) throw error;
   return data;
 };
 
-const getServices = async () => {
+export const getServicesWithUsers = async () => {
   const { data, error } = await supabase.from("services").select(`
       service_id,
       service_type,
       service_date,
-      patient:users!patient_id(id, name, email),
-      provider:users!provider_id(id, name, email)
-    `);
-
-  if (error) throw error;
-  return data;
-};
-
-const getServicesWithUsers = async () => {
-  const { data, error } = await supabase.from("services").select(`
-      service_id,
-      service_type,
-      service_date,
+      status,
       patient_id,
       provider_id,
       patient_user:users!patient_id(id, name, email),
@@ -57,10 +75,9 @@ const getServicesWithUsers = async () => {
     return [];
   }
 
-  // Transform the data into ServiceWithUsers format
   return data.map((service) => ({
     ...service,
-    patientUser: service.patient_user, // Include full user details for patient
-    providerUser: service.provider_user, // Include full user details for provider
+    patientUser: service.patient_user,
+    providerUser: service.provider_user,
   }));
 };

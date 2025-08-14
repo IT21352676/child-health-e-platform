@@ -4,6 +4,9 @@ import { createUser, getUserByUsername } from "../models/user";
 import { generateToken } from "../utils/jwt";
 
 export const login = async (req: Request, res: Response) => {
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res.status(400).json({ error: "Request body is required" });
+  }
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -20,11 +23,17 @@ export const login = async (req: Request, res: Response) => {
     return res.status(401).json({ message: "Invalid credentials" });
   }
 
+  if (!user.id || !user.username || !user.role) {
+    return res.status(500).json({ message: "User data is incomplete" });
+  }
   const token = generateToken(user.id, user.username, user.role);
   return res.json({ token, id: user.id, user: user.username, role: user.role });
 };
 
 export const register = async (req: Request, res: Response) => {
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res.status(400).json({ error: "Request body is required" });
+  }
   const { username, password, role } = req.body;
 
   if (!username || !password || !role) {
@@ -38,7 +47,7 @@ export const register = async (req: Request, res: Response) => {
     }
   }
 
-  const response = await createUser(username, password, role);
+  const response = await createUser({ username, password, role });
 
   if (response?.error) {
     return res.status(400).json({ message: response?.error });

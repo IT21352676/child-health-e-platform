@@ -1,18 +1,39 @@
 import { Router } from "express";
-import { getAllServices } from "../controllers/serviceController";
+import {
+  bookService,
+  viewAllServiceTypes,
+  viewService,
+} from "../controllers/serviceController";
 import { checkRole } from "../middleware/roleMiddleware";
 import { RoleTypes } from "../types/roles";
 
 const router = Router();
 
 router.get(
-  "/get-services",
+  "/view-all-services-types",
   checkRole([
     RoleTypes.DOCTOR,
     RoleTypes.HOSPITAL_ADMIN,
     RoleTypes.NURSE,
     RoleTypes.PATIENT,
   ]),
-  getAllServices
+  viewAllServiceTypes
 );
+router.post(
+  "/book-a-service",
+  checkRole([
+    RoleTypes.DOCTOR,
+    RoleTypes.HOSPITAL_ADMIN,
+    RoleTypes.NURSE,
+    RoleTypes.PATIENT,
+  ]),
+  bookService
+);
+
+router.get(
+  "/view-patient-services/:patient_id",
+  checkRole([RoleTypes.HOSPITAL_ADMIN, RoleTypes.PATIENT]),
+  viewService
+);
+
 export default router;
