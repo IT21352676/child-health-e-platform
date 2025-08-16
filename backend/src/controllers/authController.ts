@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import { createUser, getUserByUsername } from "../models/user";
-import { generateToken } from "../utils/jwt";
+import { generateToken, verifyToken } from "../utils/jwt";
+import { io } from "..";
 
 export const login = async (req: Request, res: Response) => {
   if (!req.body || Object.keys(req.body).length === 0) {
@@ -27,6 +28,23 @@ export const login = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "User data is incomplete" });
   }
   const token = generateToken(user.id, user.username, user.role);
+
+  // io.use((socket, next) => {
+  //   if (!token) return next(new Error("Auth token required"));
+
+  //   try {
+  //     const payload = verifyToken(token) as { userId: string };
+  //     if (!payload?.userId) return next(new Error("Invalid token payload"));
+  //     if (socket.id !== payload.userId)
+  //       return next(new Error("Socket id mismatch"));
+  //     socket.data.userId = payload.userId;
+  //     console.log("Socket auth success", socket.id);
+  //     next();
+  //   } catch {
+  //     next(new Error("Auth failed"));
+  //   }
+  // });
+
   return res.json({ token, id: user.id, user: user.username, role: user.role });
 };
 

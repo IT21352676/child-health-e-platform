@@ -39,7 +39,6 @@ export const createService = async ({
 };
 
 export const getServicesByPatient = async (patientId: User["id"]) => {
-  //console.log(patientId);
   const { data, error } = await supabase
     .from("services")
     .select(
@@ -58,26 +57,45 @@ export const getServicesByPatient = async (patientId: User["id"]) => {
   return data;
 };
 
-export const getServicesWithUsers = async () => {
-  const { data, error } = await supabase.from("services").select(`
+export const getServicesByProvider = async (providerId: User["id"]) => {
+  const { data, error } = await supabase
+    .from("services")
+    .select(
+      `
       service_id,
       service_type,
       service_date,
       status,
-      patient_id,
-      provider_id,
-      patient_user:users!patient_id(id, name, email),
-      provider_user:users!provider_id(id, name, email)
-    `);
+      patient:users!patient_id(id, username, role),
+      provider:users!provider_id(id, username, role)
+    `
+    )
+    .eq("provider_id", providerId);
 
-  if (error) {
-    console.error("Error fetching services with users:", error);
-    return [];
-  }
-
-  return data.map((service) => ({
-    ...service,
-    patientUser: service.patient_user,
-    providerUser: service.provider_user,
-  }));
+  if (error) throw error;
+  return data;
 };
+
+// export const getServicesWithUsers = async () => {
+//   const { data, error } = await supabase.from("services").select(`
+//       service_id,
+//       service_type,
+//       service_date,
+//       status,
+//       patient_id,
+//       provider_id,
+//       patient_user:users!patient_id(id, name, email),
+//       provider_user:users!provider_id(id, name, email)
+//     `);
+
+//   if (error) {
+//     console.error("Error fetching services with users:", error);
+//     return [];
+//   }
+
+//   return data.map((service) => ({
+//     ...service,
+//     patientUser: service.patient_user,
+//     providerUser: service.provider_user,
+//   }));
+// };

@@ -5,13 +5,14 @@ import {
   createService,
   getServicesByPatient,
 } from "../models/service";
+import { Server } from "socket.io";
 
 export const viewAllServiceTypes = (req: Request, res: Response) => {
   const services = getAllServiceTypes();
   res.status(200).json(services);
 };
 
-export const bookService = async (req: Request, res: Response) => {
+export const bookService = async (req: Request, res: Response, io: Server) => {
   if (!req.body || Object.keys(req.body).length === 0) {
     return res.status(400).json({ error: "Request body is required" });
   }
@@ -39,7 +40,14 @@ export const bookService = async (req: Request, res: Response) => {
   }
 };
 
-export const viewService = async (req: Request, res: Response) => {
+export const viewServiceByPatient = async (req: Request, res: Response) => {
+  const { patient_id } = req.params;
+
+  const data = await getServicesByPatient(patient_id);
+  console.log(data);
+};
+
+export const viewServiceByProvider = async (req: Request, res: Response) => {
   const { patient_id } = req.params;
 
   const data = await getServicesByPatient(patient_id);
