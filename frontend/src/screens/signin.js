@@ -1,28 +1,71 @@
-import React, { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
-import Emblem from "../assets/Emblem.jpg"
-import Background from "../assets/background.jpg"
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import Emblem from "../assets/Emblem.jpg";
+import Background from "../assets/background.jpg";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+
+const apiURL = "http://localhost:5000";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    agreeTerms: false
+    email: "",
+    password: "",
+    agreeTerms: false,
   });
   const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-  const handleSubmit = () => {
-    console.log('Sign In submitted:', formData);
-    // Add your sign in logic here
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.email || !formData.password) {
+      return toast.error("Email and password required !", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    }
+    try {
+      const res = await axios.post(`${apiURL}/user-auth/user-login`, {
+        email: formData.email,
+        password: formData.password,
+      });
+      localStorage.setItem("user", JSON.stringify(res.data));
+      toast.success(`Login Success, Welcome ${res?.data?.first_name} !`, {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+      setTimeout(() => {
+        window.location.href = "/homescreen";
+      }, 2000);
+    } catch (err) {
+      return toast.error(`${err.response.data.message} !`, {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    }
   };
 
   return (
@@ -35,22 +78,24 @@ export default function SignIn() {
         <div className="mb-8 text-center">
           <div className="flex justify-center mb-4">
             <div className="flex items-center justify-center w-16 h-16 rounded-full">
-              <img className="mb-4" src={Emblem}/>
+              <img className="mb-4" src={Emblem} />
             </div>
           </div>
-          
+
           <div className="mt-2 mb-2">
             <p className="text-xs text-gray-600">දරුවන්ගේ සෞඛ්‍ය වර්ධන සටහන</p>
-            <p className="text-xs text-gray-600">குழந்தை சுகாதார மேம்பாட்டு பதிவு</p>
-            <p className="text-xs text-gray-600">CHILD HEALTH DEVELOPMENT RECORD</p>
+            <p className="text-xs text-gray-600">
+              குழந்தை சுகாதார மேம்பாட்டு பதிவு
+            </p>
+            <p className="text-xs text-gray-600">
+              CHILD HEALTH DEVELOPMENT RECORD
+            </p>
           </div>
-          
-          <h2 className="mb-4 text-3xl font-bold text-red-800">Sign In</h2>
 
+          <h2 className="mb-4 text-3xl font-bold text-red-800">Sign In</h2>
         </div>
 
-        <div className="space-y-6">  
-
+        <div className="space-y-6">
           {/* Email/Phone Input */}
           <div>
             <input
@@ -82,19 +127,19 @@ export default function SignIn() {
             </button>
           </div>
 
-
           {/* Submit Button */}
           <button
             onClick={handleSubmit}
             className="w-full py-4 font-semibold text-white transition-colors duration-200 transform bg-red-800 rounded-lg hover:bg-red-900 disabled:bg-gray-400 disabled:cursor-not-allowed hover:scale-105 disabled:hover:scale-100"
           >
-            <Link to="/homescreen">Log In</Link>
+            Log In
+            {/* <Link to="/homescreen">Log In</Link> */}
           </button>
 
           {/* Switch to Sign Up */}
           <div className="text-center">
             <span className="text-gray-700">
-              Don't have an account?{' '}
+              Don't have an account?{" "}
               <a
                 href="/signup"
                 className="font-medium text-gray-900 underline transition-colors hover:text-red-600"
@@ -105,6 +150,7 @@ export default function SignIn() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
