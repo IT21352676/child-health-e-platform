@@ -51,11 +51,11 @@ cd frontend
 npm install
 npm start
 
-##Docker-compose.yml 
-services:
-  backend:
-    image: hirushatorchlabs/child-health-e-platform-backend:latest
-    container_name: backend
+## Docker-compose.yml 
+### Services:
+   #### Backend:
+   image: hirushatorchlabs/child-health-e-platform-backend:latest
+         container_name: backend
     ports:
       - "5000:5000"
     environment:
@@ -63,8 +63,8 @@ services:
     networks:
       - child-health-e-platform
 
-  frontend:
-    image: hirushatorchlabs/child-health-e-platform-frontend:latest
+  #### Frontend:
+  image: hirushatorchlabs/child-health-e-platform-frontend:latest
     container_name: frontend
     ports:
       - "80:80"
@@ -75,6 +75,7 @@ services:
     networks:
       - child-health-e-platform
 
-networks:
+### Networks:
   child-health-e-platform:
     driver: bridge
+
