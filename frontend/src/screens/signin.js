@@ -43,7 +43,7 @@ export default function SignIn() {
         password: formData.password,
       });
       localStorage.setItem("user", JSON.stringify(res.data));
-      toast.success(`Login Success, Welcome ${res?.data?.first_name} !`, {
+      toast.success(`Login Success, Welcome!`, {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: false,
