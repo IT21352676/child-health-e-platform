@@ -7,4 +7,5 @@ export interface Document {
   file_path: string;
   document_type: string;
   status: Status;
+  upload_timestamp?: Date;
 }

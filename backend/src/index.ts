@@ -6,9 +6,9 @@ import { createServer } from "http";
 import { initializeSocket } from "./config/socket";
 import authRoutes from "./routes/authRoutes";
 import serviceRoutes from "./routes/serviceRoutes";
-import documentRoutes from "./routes/document.routes";
-import feedbackRoutes from "./routes/feedback.routes";
-import notificationRoutes from "./routes/notification.routes";
+import documentRoutes from "./routes/documentRoutes";
+import feedbackRoutes from "./routes/feedbackRoutes";
+import notificationRoutes from "./routes/notificationRoutes";
 
 // Load environment variables
 dotenv.config();
@@ -27,9 +27,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.use("/auth", authRoutes);
 app.use("/secured/services", serviceRoutes);
-app.use("/api/v1/documents", documentRoutes);
-app.use("/api/v1/feedback", feedbackRoutes);
-app.use("/api/v1/notifications", notificationRoutes);
+app.use("/documents", documentRoutes);
+app.use("/feedback", feedbackRoutes);
+app.use("/notifications", notificationRoutes);
 
 // Error handling middleware
 app.use((error: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

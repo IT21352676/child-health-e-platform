@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { NotificationService } from '../services/notification.service';
-import { 
-  CreateNotificationSchema, 
-  GetNotificationsQuerySchema, 
+import { NotificationService } from '../services/notificationService';
+import {
+  CreateNotificationSchema,
+  GetNotificationsQuerySchema,
   BulkNotificationSchema,
-  MarkAsReadSchema 
-} from '../schemas/notification.schemas';
+  MarkAsReadSchema
+} from '../schemas/notificationSchemas';
 
 export class NotificationController {
   private notificationService: NotificationService;
@@ -98,7 +98,7 @@ export class NotificationController {
   async sendAppointmentConfirmation(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { user_id, appointment_id } = req.body;
-      
+
       if (!user_id || !appointment_id) {
         res.status(400).json({
           status: 'error',
@@ -121,7 +121,7 @@ export class NotificationController {
   async sendAppointmentReminder(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { user_id, appointment_id } = req.body;
-      
+
       if (!user_id || !appointment_id) {
         res.status(400).json({
           status: 'error',
@@ -144,7 +144,7 @@ export class NotificationController {
   async sendDocumentStatusUpdate(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { user_id, document_name, status } = req.body;
-      
+
       if (!user_id || !document_name || !status) {
         res.status(400).json({
           status: 'error',

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { FeedbackService } from '../services/feedback.service';
-import { CreateFeedbackSchema, UpdateFeedbackSchema, GetFeedbackQuerySchema } from '../schemas/feedback.schemas';
+import { FeedbackService } from '../services/feedbackService';
+import { CreateFeedbackSchema, UpdateFeedbackSchema, GetFeedbackQuerySchema } from '../schemas/feedbackSchemas';
 
 export class FeedbackController {
   private feedbackService: FeedbackService;
@@ -64,7 +64,7 @@ export class FeedbackController {
     try {
       const { feedbackId } = req.params;
       const validatedData = UpdateFeedbackSchema.parse(req.body);
-      
+
       const feedback = await this.feedbackService.updateFeedback(feedbackId, validatedData);
 
       res.status(200).json({

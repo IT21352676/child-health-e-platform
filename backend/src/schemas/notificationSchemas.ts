@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { NotificationTypes } from '../types/notification_types';
+import { NotificationTypes } from '../types/notificationTypes';
 import { NotificationMethod } from '../types/notificationMethod';
 
 // Validation for creating notification

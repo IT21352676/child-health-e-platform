@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { FeedbackController } from '../controllers/feedback.controller';
+import { FeedbackController } from '../controllers/feedbackController';
 import { validateBody, validateQuery, validateParams } from '../middleware/validation.middleware';
-import { CreateFeedbackSchema, UpdateFeedbackSchema, GetFeedbackQuerySchema } from '../schemas/feedback.schemas';
+import { CreateFeedbackSchema, UpdateFeedbackSchema, GetFeedbackQuerySchema } from '../schemas/feedbackSchemas';
 import { z } from 'zod';
 
 const router = Router();
@@ -12,7 +12,7 @@ const FeedbackIdSchema = z.object({
   feedbackId: z.string().min(1, 'Feedback ID is required')
 });
 
-// POST /api/v1/feedback - Create new feedback
+//  Create new feedback
 router.post(
   '/',
   validateBody(CreateFeedbackSchema),

@@ -1,9 +1,9 @@
 import { supabase } from '../config/supabase';
 import { Feedback } from '../types/feedback';
-import { CreateFeedbackRequest, UpdateFeedbackRequest, GetFeedbackQuery } from '../schemas/feedback.schemas';
+import { CreateFeedbackRequest, UpdateFeedbackRequest, GetFeedbackQuery } from '../schemas/feedbackSchemas';
 
 export class FeedbackService {
-  
+
   async createFeedback(feedbackData: CreateFeedbackRequest): Promise<Feedback> {
     try {
       // Check if feedback already exists for this appointment and user
@@ -102,11 +102,11 @@ export class FeedbackService {
   async updateFeedback(feedbackId: string, updateData: UpdateFeedbackRequest): Promise<Feedback> {
     try {
       const updateObject: any = {};
-      
+
       if (updateData.rating !== undefined) {
         updateObject.rating = updateData.rating;
       }
-      
+
       if (updateData.comment !== undefined) {
         updateObject.comment = updateData.comment;
       }
@@ -154,7 +154,7 @@ export class FeedbackService {
   }> {
     try {
       let query = supabase.from('feedback').select('rating');
-      
+
       if (appointmentId) {
         query = query.eq('appointment_id', parseInt(appointmentId));
       }
@@ -167,9 +167,9 @@ export class FeedbackService {
 
       const totalFeedback = data.length;
       const ratings = data.map(f => f.rating).filter(r => r !== null);
-      
-      const averageRating = ratings.length > 0 
-        ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length 
+
+      const averageRating = ratings.length > 0
+        ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length
         : 0;
 
       const ratingDistribution: { [key: number]: number } = {

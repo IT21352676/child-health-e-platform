@@ -2,17 +2,17 @@ import { supabase } from '../config/supabase';
 import { createTransporter, emailTemplates } from '../config/email';
 import { getSocketManager } from '../config/socket';
 import { Notification } from '../types/notification';
-import { NotificationTypes } from '../types/notification_types';
+import { NotificationTypes } from '../types/notificationTypes';
 import { NotificationMethod } from '../types/notificationMethod';
-import { 
-  CreateNotificationRequest, 
-  GetNotificationsQuery, 
+import {
+  CreateNotificationRequest,
+  GetNotificationsQuery,
   BulkNotificationRequest,
-  MarkAsReadRequest 
-} from '../schemas/notification.schemas';
+  MarkAsReadRequest
+} from '../schemas/notificationSchemas';
 
 export class NotificationService {
-  
+
   async createNotification(notificationData: CreateNotificationRequest): Promise<Notification> {
     try {
       // Save to database
@@ -172,7 +172,7 @@ export class NotificationService {
   private async sendRealTimeNotification(notification: Notification): Promise<void> {
     try {
       const socketManager = getSocketManager();
-      
+
       const notificationData = {
         id: notification.notification_id,
         type: notification.type,
@@ -187,8 +187,8 @@ export class NotificationService {
       // If appointment-related, also send to appointment room
       if (notification.appointment_id) {
         socketManager.sendToAppointment(
-          notification.appointment_id, 
-          'appointment_notification', 
+          notification.appointment_id,
+          'appointment_notification',
           notificationData
         );
       }
@@ -211,7 +211,7 @@ export class NotificationService {
       }
 
       const transporter = createTransporter();
-      
+
       let emailTemplate;
       let appointmentDetails = null;
 
