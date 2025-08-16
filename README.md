@@ -23,7 +23,7 @@ This solution streamlines healthcare record management, reduces paperwork, and i
 
 ## Running with Docker Compose
 1. Clone the repo:
-   git clone https://github.com/TeamName_ChildHealthEPlatform.git
+   git clone [https://github.com/IT21352676/child-health-e-platform.git]
    cd SIXdotEXE_ChildHealthEPlatform
 
 2. Start all services:
@@ -78,4 +78,5 @@ npm start
 ### Networks:
   child-health-e-platform:
     driver: bridge
+
 
