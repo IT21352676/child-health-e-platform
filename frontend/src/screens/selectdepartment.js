@@ -23,15 +23,11 @@ export default function SelectDepartment() {
             </div>
           </div>
 
-          <div className="mt-2 mb-2">
+          {/* <div className="mt-2 mb-2">
             <p className="text-xs text-gray-600">දරුවන්ගේ සෞඛ්‍ය වර්ධන සටහන</p>
-            <p className="text-xs text-gray-600">
-              குழந்தை சுகாதார மேம்பாட்டு பதிவு
-            </p>
-            <p className="text-xs text-gray-600">
-              CHILD HEALTH DEVELOPMENT RECORD
-            </p>
-          </div>
+            <p className="text-xs text-gray-600">குழந்தை சுகாதார மேம்பாட்டு பதிவு</p>
+            <p className="text-xs text-gray-600">CHILD HEALTH DEVELOPMENT RECORD</p>
+          </div> */}
 
           <h2 className="mb-4 text-3xl font-bold text-red-800">
             Select Department
@@ -41,7 +37,7 @@ export default function SelectDepartment() {
         <div className="space-y-6">
           {/* Full Name Input */}
           <div>
-            <select className="w-[280px]">
+            <select className="w-[248px] h-10">
               <option value="nationalbudget">
                 Department of National Budget
               </option>

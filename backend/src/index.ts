@@ -14,7 +14,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use("/appointment", require("./routes/appointmentRoutes"));
 app.use("/admin-auth", adminAuthRoutes);
 app.use("/user-auth", userAuthRoutes);
 
@@ -22,7 +22,6 @@ const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
-
 
 // const SOCKET_PORT = 5001;
 // httpServer.listen(SOCKET_PORT, () => {
@@ -42,4 +41,3 @@ app.listen(PORT, () => {
 // });
 
 // export { io };
-
