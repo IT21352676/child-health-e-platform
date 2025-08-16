@@ -1,26 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
-import authRoutes from "./routes/authRoutes";
-import serviceRoutes from "./routes/serviceRoutes";
-import http from "http";
-import { Server } from "socket.io";
-import { setupRealtime, liveUsers } from "./utils/socket";
 
 const app = express();
 app.use(bodyParser.json());
-
-const httpServer = http.createServer(app);
-
-const io = new Server(httpServer, {
-  cors: { origin: "*", credentials: true },
-});
-
-app.use("/auth", authRoutes);
-app.use("/secured/services", (req, res) => {
-  serviceRoutes(req, res, io);
-});
-
-setupRealtime(io);
 
 const PORT = 5000;
 app.listen(PORT, () => {
