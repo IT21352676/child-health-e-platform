@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CheckCircle, Clock, User, Calendar, AlertCircle } from "lucide-react";
+import Header from "../components/header";
 
 const BASE_API = "http://localhost:5000/appointment";
 
@@ -132,20 +133,6 @@ function TimeSlotPicker({
         <div className="flex items-center space-x-1">
           <div className="w-3 h-3 border border-gray-300 rounded"></div>
           <span>Available</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Header Component (since it's imported but not defined)
-function Header() {
-  return (
-    <div className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
-      <div className="max-w-3xl mx-auto px-4 py-3">
-        <div className="flex items-center space-x-2">
-          <Calendar className="text-[#6a0d0d]" size={24} />
-          <h1 className="text-xl font-bold text-[#6a0d0d]">Appointments</h1>
         </div>
       </div>
     </div>
