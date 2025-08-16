@@ -10,13 +10,15 @@ import ChildProfile from "./screens/childprofile"
 import AddChildProfile from "./screens/addchildprofile";
 import SignIn from "./screens/signin"
 import SignUp from "./screens/signup";
+import SelectDepartment from "./screens/selectedepartment";
 
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<SplashScreen />} />
+        <Route path="/" element={<SelectDepartment />} />
+        <Route path="/splashscreen" element={<SplashScreen />} />
         <Route path="/loadingscreen" element={<LoadingScreen />} />
         <Route path="/homescreen" element={<HomePage />} />
         <Route path="/appointments" element={<AppointmentScreen />} />   
