@@ -1,13 +1,18 @@
-// import { Router } from "express";
-// import { login, register } from "../controllers/authController";
-// import { checkRole } from "../middleware/roleMiddleware";
-// import { RoleTypes } from "../types/roles";
+import { Router } from "express";
 
-// const router = Router();
+import { checkRole } from "../middleware/roleMiddleware";
+import { RoleTypes } from "../types/roles";
+import { adminLogin, adminRegister } from "../controllers/govAuthController";
 
-// router.post("/login", login);
+const router = Router();
 
-// router.post("/register", checkRole([RoleTypes.HOSPITAL_ADMIN]), register);
+router.post("/gov-login", adminLogin);
+
+router.post(
+  "/gov-register",
+  checkRole([RoleTypes.HOSPITAL_ADMIN]),
+  adminRegister
+);
 
 // router.get("/admin", checkRole([RoleTypes.HOSPITAL_ADMIN]), (req, res) => {
 //   res.send("Welcome Hospital Admin");
@@ -25,4 +30,4 @@
 //   res.send("Welcome Patient");
 // });
 
-// export default router;
+export default router;
