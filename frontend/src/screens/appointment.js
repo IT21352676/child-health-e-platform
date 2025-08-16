@@ -167,9 +167,10 @@ export default function AppointmentScreen() {
   const [existingAppointments, setExistingAppointments] = useState([]);
   const [userAppointments, setUserAppointments] = useState([]);
   const [loadingAppointments, setLoadingAppointments] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   // Mock user ID - in a real app, this would come from authentication
-  const userId = 1;
+  const userId = user.user_id;
 
   // Helper function to format appointment date and time
   const formatAppointmentDateTime = (dateTimeString) => {
@@ -338,18 +339,15 @@ export default function AppointmentScreen() {
         const appointments = data.data || [];
 
         // Categorize appointments by status
-        const pending = appointments.filter(
-          (apt) => apt.status === "PENDING" || apt.status === "CONFIRMED"
-        );
-        const completed = appointments.filter(
-          (apt) => apt.status === "COMPLETED"
-        );
+        const pending = appointments.filter((apt) => apt.status === "pending");
+        const completed = appointments.filter((apt) => apt.status === "accept");
         const vaccines = appointments.filter(
           (apt) =>
-            apt.status === "COMPLETED" &&
-            (apt.service_name?.toLowerCase().includes("vaccine") ||
-              apt.service_name?.toLowerCase().includes("vaccination") ||
-              apt.service_name?.toLowerCase().includes("immunization"))
+            apt.status === "pending" ||
+            (apt.status === "accept" &&
+              (apt.service_name?.toLowerCase().includes("vaccine") ||
+                apt.service_name?.toLowerCase().includes("vaccination") ||
+                apt.service_name?.toLowerCase().includes("immunization")))
         );
 
         setUserAppointments(appointments);
@@ -625,7 +623,8 @@ export default function AppointmentScreen() {
                   >
                     <div className="flex-1">
                       <p className="font-semibold text-[#6a0d0d]">
-                        {appt.service_name || `Service ID: ${appt.service_id}`}
+                        {appt.service_name ||
+                          `Ref NO: ${appt.reference_number}`}
                       </p>
                       <p className="text-sm text-gray-500">
                         {date} - {time}
@@ -682,7 +681,8 @@ export default function AppointmentScreen() {
                   >
                     <div className="flex-1">
                       <p className="font-semibold text-[#6a0d0d]">
-                        {appt.service_name || `Service ID: ${appt.service_id}`}
+                        {appt.service_name ||
+                          `Ref NO: ${appt.reference_number}`}
                       </p>
                       <p className="text-sm text-gray-500">
                         {date} - {time}
@@ -738,7 +738,7 @@ export default function AppointmentScreen() {
                   >
                     <p className="font-semibold text-[#6a0d0d]">
                       {vaccine.service_name ||
-                        `Service ID: ${vaccine.service_id}`}
+                        `Ref NO: ${vaccine.reference_number}`}
                     </p>
                     <p className="text-sm text-gray-500 mb-2">Date: {date}</p>
                     {vaccine.appointment_id && (

@@ -7,7 +7,6 @@ import cors from "cors";
 const app = express();
 app.use(bodyParser.json());
 
-app.use("/appointment", require("./routes/appointmentRoutes"));
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -15,7 +14,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use("/appointment", require("./routes/appointmentRoutes"));
 app.use("/admin-auth", adminAuthRoutes);
 app.use("/user-auth", userAuthRoutes);
 
