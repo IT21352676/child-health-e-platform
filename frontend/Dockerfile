@@ -5,13 +5,11 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+RUN npm run start
 
-# Production stage
-FROM nginx:alpine
+EXPOSE 8300
 
-COPY --from=build /app/dist /usr/share/nginx/html
+RUN npm run start
 
-# Expose container port
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Run the application
+#CMD ["node", "dist/index.js"]
