@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import Emblem from "../assets/Emblem.jpg";
 import Background from "../assets/background.jpg";
 
-const apiURL = "http://localhost:5000";
+const apiURL = process.env.REACT_APP_API_URL;
 
 export default function SignIn() {
   const [formData, setFormData] = useState({

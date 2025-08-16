@@ -3,6 +3,11 @@ import bodyParser from "body-parser";
 import adminAuthRoutes from "./routes/govAuthRoutes";
 import userAuthRoutes from "./routes/userAuthRoutes";
 import cors from "cors";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
+const PORT = process.env.BACKEND_PORT;
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,7 +23,6 @@ app.use("/appointment", require("./routes/appointmentRoutes"));
 app.use("/admin-auth", adminAuthRoutes);
 app.use("/user-auth", userAuthRoutes);
 
-const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

@@ -2,7 +2,7 @@ import { AlertCircle, CheckCircle, Clock, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import Header from "../components/header";
 
-const BASE_API = "http://localhost:5000/appointment";
+const BASE_API = `${process.env.REACT_APP_API_URL}/appointment`;
 
 // Simple Calendar Component
 function SimpleCalendar({ selectedDate, onChange }) {
