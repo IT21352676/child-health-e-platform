@@ -2,10 +2,18 @@ import express from "express";
 import bodyParser from "body-parser";
 import adminAuthRoutes from "./routes/govAuthRoutes";
 import userAuthRoutes from "./routes/userAuthRoutes";
-import bcrypt from "bcryptjs";
+import cors from "cors";
 
 const app = express();
 app.use(bodyParser.json());
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 app.use("/admin-auth", adminAuthRoutes);
 app.use("/user-auth", userAuthRoutes);
