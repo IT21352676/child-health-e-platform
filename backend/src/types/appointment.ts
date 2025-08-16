@@ -1,13 +1,11 @@
-import { AppointmentStatus } from "./appointmentStatus";
+import { Status } from "./status";
 
 export interface Appointment {
-  appointmentId: string;
-  userId: string; // parent user id
-  childId?: string; // optional child id if available in schema
-  serviceId: string;
-  appointmentDatetime: string; // ISO string
-  status: AppointmentStatus;
-  referenceNumber: string;
-  qrCodeData: string;
-  createdAt?: string;
+  appointment_id: string;
+  user_id: string;
+  service_id: string;
+  confirmed_by_official_id: string;
+  appointment_datetime: string;
+  qr_code_data: string;
+  status: Status;
 }
