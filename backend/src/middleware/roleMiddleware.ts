@@ -22,8 +22,6 @@ export const checkRole = (roles: RoleTypes[]) => {
       return res.status(401).json({ message: "Invalid token" });
     }
 
-    console.log(decoded);
-
     if (!roles.includes((decoded as any).role)) {
       return res.status(403).json({ message: "Access denied" });
     }
