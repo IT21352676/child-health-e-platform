@@ -23,6 +23,7 @@ app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
 
+
 // const SOCKET_PORT = 5001;
 // httpServer.listen(SOCKET_PORT, () => {
 //   console.log(`Socket running on http://localhost:${SOCKET_PORT}`);
@@ -41,3 +42,4 @@ app.listen(PORT, () => {
 // });
 
 // export { io };
+
