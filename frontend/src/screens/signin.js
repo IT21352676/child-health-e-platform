@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import axios from "axios";
 import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import Emblem from "../assets/Emblem.jpg";
 import Background from "../assets/background.jpg";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
 
 const apiURL = "http://localhost:5000";
 
@@ -78,7 +77,7 @@ export default function SignIn() {
         <div className="mb-8 text-center">
           <div className="flex justify-center mb-4">
             <div className="flex items-center justify-center w-16 h-16 rounded-full">
-              <img className="mb-4" src={Emblem} />
+              <img className="mb-4" src={Emblem} alt="img" />
             </div>
           </div>
 

@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+//import { useState } from "react";
+import { Link } from "react-router-dom";
 import Emblem from "../assets/Emblem.jpg";
 import Background from "../assets/background.jpg";
-import { Link } from "react-router-dom";
 
 export default function SelectDepartment() {
-  const [formData, setFormData] = useState({
-    selectdepartment: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   selectdepartment: "",
+  // });
 
   return (
     <div
@@ -19,7 +18,7 @@ export default function SelectDepartment() {
         <div className="mb-8 text-center">
           <div className="flex justify-center mb-4">
             <div className="flex items-center justify-center w-16 h-16 rounded-full">
-              <img className="mb-4" src={Emblem} />
+              <img className="mb-4" src={Emblem} alt="img" />
             </div>
           </div>
 

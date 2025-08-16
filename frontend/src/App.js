@@ -1,16 +1,16 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import SplashScreen from "./screens/splashscreen";
-import LoadingScreen from "./screens/loadingscreen";
-import HomePage from "./screens/homescreen";
-import AppointmentScreen from "./screens/appointment";
-import GrowthChartScreen from "./screens/growthscreen";
-import Blogs from "./screens/blog";
-import Profile from "./screens/profile";
-import ChildProfile from "./screens/childprofile";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AddChildProfile from "./screens/addchildprofile";
+import AppointmentScreen from "./screens/appointment";
+import Blogs from "./screens/blog";
+import ChildProfile from "./screens/childprofile";
+import GrowthChartScreen from "./screens/growthscreen";
+import HomePage from "./screens/homescreen";
+import LoadingScreen from "./screens/loadingscreen";
+import Profile from "./screens/profile";
+import SelectDepartment from "./screens/selectdepartment";
 import SignIn from "./screens/signin";
 import SignUp from "./screens/signup";
-import SelectDepartment from "./screens/selectdepartment";
+import SplashScreen from "./screens/splashscreen";
 
 export default function App() {
   return (

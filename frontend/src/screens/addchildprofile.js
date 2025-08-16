@@ -1,39 +1,41 @@
-import React, { useState } from 'react';
-import { Menu, Camera, User } from 'lucide-react';
-import Header from '../components/header';
+import { Camera, User } from "lucide-react";
+import { useState } from "react";
+import Header from "../components/header";
 
 const AddChildProfile = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    nickname: '',
-    dateOfBirth: '',
-    gender: '',
-    birthWeightHeight: '',
-    bloodGroup: ''
+    firstName: "",
+    lastName: "",
+    nickname: "",
+    dateOfBirth: "",
+    gender: "",
+    birthWeightHeight: "",
+    bloodGroup: "",
   });
 
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <Header/>
+      <Header />
       {/* Main Content */}
       <div className="p-4 pt-20">
         <div className="p-6 bg-white rounded-lg shadow-sm">
-          <h1 className="mb-8 text-2xl font-bold text-red-800">Add Child Profile</h1>
-          
+          <h1 className="mb-8 text-2xl font-bold text-red-800">
+            Add Child Profile
+          </h1>
+
           {/* Profile Photo Upload */}
           <div className="flex justify-center mb-8">
             <div className="relative">

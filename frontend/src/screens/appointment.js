@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { CheckCircle, Clock, User, Calendar, AlertCircle } from "lucide-react";
+import { AlertCircle, CheckCircle, Clock, User } from "lucide-react";
+import { useEffect, useState } from "react";
 import Header from "../components/header";
 
 const BASE_API = "http://localhost:5000/appointment";
@@ -155,6 +155,8 @@ export default function AppointmentScreen() {
   const [userAppointments, setUserAppointments] = useState([]);
   const [loadingAppointments, setLoadingAppointments] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
+
+  console.log(userAppointments);
 
   // Mock user ID - in a real app, this would come from authentication
   const userId = user.user_id;
