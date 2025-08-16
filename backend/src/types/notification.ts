@@ -6,6 +6,6 @@ export interface Notification {
   user_id: string;
   appointment_id: string;
   type: NotificationTypes;
-  methos: NotificationMethod;
+  method: NotificationMethod;
   content: string;
 }
