@@ -1,36 +1,78 @@
-// import { PostgrestSingleResponse } from "@supabase/supabase-js";
-// import { supabase } from "../utils/db";
-// import bcrypt from "bcryptjs";
-// import { User } from "../types/user";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
+import { supabase } from "../utils/db";
+import bcrypt from "bcryptjs";
+import { GovUser } from "../types/admin";
 
-// export const getUserByUsername = async (
-//   username: string
-// ): Promise<User | null> => {
-//   const { data, error } = await supabase
-//     .from("users")
-//     .select("*")
-//     .eq("username", username)
-//     .single();
+export const getGovUserById = async (
+  official_id: string
+): Promise<GovUser | null> => {
+  const { data, error } = await supabase
+    .from("government_official")
+    .select("*")
+    .eq("official_id", official_id)
+    .single();
 
-//   if (error) {
-//     return null;
-//   }
-//   return data;
-// };
+  if (error) {
+    return null;
+  }
+  return data;
+};
 
-// export const createUser = async (
-//   username: string,
-//   password: string,
-//   role: string
-// ): Promise<PostgrestSingleResponse<any> | null> => {
-//   const hashedPassword = await bcrypt.hash(password, 10);
-//   const response = await supabase
-//     .from("users")
-//     .insert([{ username, password: hashedPassword, role }]);
+export const getGovUserByUsername = async (
+  first_name: string,
+  last_name: string
+): Promise<GovUser | null> => {
+  const { data, error } = await supabase
+    .from("government_official")
+    .select("*")
+    .eq("first_name", first_name)
+    .eq("last_name", last_name)
+    .single();
 
-//   if (response.error) {
-//     console.error("Error creating user:", response.error);
-//   }
+  if (error) {
+    return null;
+  }
+  return data;
+};
 
-//   return response;
-// };
+export const getGovUserByEmail = async (
+  email: string
+): Promise<GovUser | null> => {
+  const { data, error } = await supabase
+    .from("government_official")
+    .select("*")
+    .eq("email", email)
+    .single();
+
+  if (error) {
+    return null;
+  }
+  return data;
+};
+
+export const createGovUser = async (
+  department_id: string,
+  first_name: string,
+  last_name: string,
+  email: string,
+  password_hash: string,
+  role: string
+): Promise<PostgrestSingleResponse<any> | null> => {
+  const hashedPassword = await bcrypt.hash(password_hash, 10);
+  const response = await supabase.from("government_official").insert([
+    {
+      department_id,
+      first_name,
+      last_name,
+      email,
+      password_hash: hashedPassword,
+      role,
+    },
+  ]);
+
+  if (response.error) {
+    console.error("Error creating gov user:", response.error);
+  }
+
+  return response;
+};

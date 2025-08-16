@@ -1,6 +1,6 @@
 import { RoleTypes } from "./roles";
 
-export interface Gov_User {
+export interface GovUser {
   ofiicial_id: string;
   department_id: string;
   first_name: string;

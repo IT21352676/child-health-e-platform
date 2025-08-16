@@ -1,53 +1,103 @@
-// import { Request, Response } from "express";
-// import bcrypt from "bcryptjs";
-// import { createUser, getUserByUsername } from "../models/user";
-// import { generateToken } from "../utils/jwt";
+import { Request, Response } from "express";
+import bcrypt from "bcryptjs";
 
-// export const login = async (req: Request, res: Response) => {
-//   const { username, password } = req.body;
+import { generateAdminToken } from "../utils/jwt";
+import {
+  createGovUser,
+  getGovUserByEmail,
+  getGovUserByUsername,
+} from "../models/govAdmin";
 
-//   if (!username || !password) {
-//     return res.status(404).json({ message: "All fields required" });
-//   }
+export const adminLogin = async (req: Request, res: Response) => {
+  if (!req.body) {
+    return res.status(404).json({ message: "Body not provided" });
+  }
+  const { email, password } = req.body;
 
-//   const user = await getUserByUsername(username);
-//   if (!user) {
-//     return res.status(401).json({ message: "Invalid credentials" });
-//   }
+  if (!email || !password) {
+    return res.status(404).json({ message: "All fields required" });
+  }
 
-//   const passwordMatch = bcrypt.compareSync(password, user.password);
-//   if (!passwordMatch) {
-//     return res.status(401).json({ message: "Invalid credentials" });
-//   }
+  const user = await getGovUserByEmail(email);
+  if (!user) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
 
-//   const token = generateToken(user.id, user.username, user.role);
-//   return res.json({ token, id: user.id, user: user.username, role: user.role });
-// };
+  const passwordMatch = bcrypt.compareSync(password, user.password_hash);
+  if (!passwordMatch) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
 
-// export const register = async (req: Request, res: Response) => {
-//   const { username, password, role } = req.body;
+  const token = generateAdminToken(
+    user.ofiicial_id,
+    user.department_id,
+    user.first_name,
+    user.last_name,
+    user.email,
+    user.role
+  );
+  return res.json({
+    token,
+    ofiicial_id: user.ofiicial_id,
+    department_id: user.department_id,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    role: user.role,
+  });
+};
 
-//   if (!username || !password || !role) {
-//     return res.status(404).json({ message: "All fields required" });
-//   }
+export const adminRegister = async (req: Request, res: Response) => {
+  if (!req.body) {
+    return res.status(404).json({ message: "Body not provided" });
+  }
+  const { department_id, first_name, last_name, email, password, role } =
+    req.body;
 
-//   const user = await getUserByUsername(username);
-//   {
-//     if (user) {
-//       return res.status(409).json({ message: "This username already exists" });
-//     }
-//   }
+  if (
+    !first_name ||
+    !password ||
+    !role ||
+    !department_id ||
+    !last_name ||
+    !email
+  ) {
+    return res.status(404).json({ message: "All fields required" });
+  }
 
-//   const response = await createUser(username, password, role);
+  const checkUsername = await getGovUserByUsername(first_name, last_name);
+  {
+    if (checkUsername) {
+      return res.status(409).json({ message: "This usernames already exists" });
+    }
+  }
 
-//   if (response?.error) {
-//     return res.status(400).json({ message: response?.error });
-//   }
+  const chcekUserEmail = await getGovUserByEmail(email);
+  {
+    if (chcekUserEmail) {
+      return res.status(409).json({ message: "This email already exists" });
+    }
+  }
 
-//   if (response?.status === 201) {
-//     return res.status(200).json({ message: "User registered successfully" });
-//   } else {
-//     console.error("Something went wrong");
-//     return res.status(400).json({ message: "Something went wrong" });
-//   }
-// };
+  const response = await createGovUser(
+    department_id,
+    first_name,
+    last_name,
+    email,
+    password,
+    role
+  );
+
+  if (response?.error) {
+    return res.status(400).json({ message: response?.error });
+  }
+
+  if (response?.status === 201) {
+    return res
+      .status(200)
+      .json({ message: "Gov user registered successfully" });
+  } else {
+    console.error("Something went wrong");
+    return res.status(400).json({ message: "Something went wrong" });
+  }
+};
