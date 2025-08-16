@@ -9,6 +9,9 @@ import {
 } from "../models/govAdmin";
 
 export const adminLogin = async (req: Request, res: Response) => {
+  if (!req.body) {
+    return res.status(404).json({ message: "Body not provided" });
+  }
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -45,6 +48,9 @@ export const adminLogin = async (req: Request, res: Response) => {
 };
 
 export const adminRegister = async (req: Request, res: Response) => {
+  if (!req.body) {
+    return res.status(404).json({ message: "Body not provided" });
+  }
   const { department_id, first_name, last_name, email, password, role } =
     req.body;
 

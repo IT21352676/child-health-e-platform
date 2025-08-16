@@ -1,12 +1,14 @@
 import express from "express";
 import bodyParser from "body-parser";
 import adminAuthRoutes from "./routes/govAuthRoutes";
+import userAuthRoutes from "./routes/userAuthRoutes";
 import bcrypt from "bcryptjs";
 
 const app = express();
 app.use(bodyParser.json());
 
 app.use("/admin-auth", adminAuthRoutes);
+app.use("/user-auth", userAuthRoutes);
 
 const PORT = 5000;
 app.listen(PORT, () => {

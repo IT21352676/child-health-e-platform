@@ -23,6 +23,23 @@ export const generateAdminToken = (
   return jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
 };
 
+export const generateUserToken = (
+  user_id: string,
+  first_name: string,
+  last_name: string,
+  email: string,
+  phone_number: string
+) => {
+  const payload = {
+    user_id,
+    first_name,
+    last_name,
+    email,
+    phone_number,
+  };
+  return jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+};
+
 export const verifyToken = (token: string) => {
   try {
     return jwt.verify(token, SECRET_KEY);
