@@ -1,5 +1,11 @@
 import { Request, Response } from "express";
-import { createAnAppointment } from "../models/appointment";
+import {
+  createAnAppointment,
+  getAllAppointments,
+  getAppointmentsSummary,
+  getUserAppointments,
+  verifyAppointmentQR,
+} from "../models/appointment";
 import { Appointment } from "../types/appointment";
 import { Status } from "../types/status";
 
@@ -76,6 +82,84 @@ export const create = async (req: Request, res: Response) => {
     }
   } catch (error: any) {
     console.error("Error in appointment create controller:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Internal server error",
+    });
+  }
+};
+
+// Get all appointment controller
+export const getAll = async (req: Request, res: Response) => {
+  try {
+    const { service_id } = req.params;
+    const response = await getAllAppointments({
+      serviceId: parseInt(service_id),
+    });
+    if (response.success) {
+      return res.status(201).json({
+        success: true,
+        data: response.data,
+        message: "Fetched all appointments data",
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        error: response.error || "Failed to fetch appointment",
+      });
+    }
+  } catch (error: any) {
+    console.error("Error in appointment fetch all controller:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Internal server error",
+    });
+  }
+};
+
+// Get appointments with summary controller
+export const getAppointmentSummary = async (req: Request, res: Response) => {
+  try {
+    const response = await getAppointmentsSummary();
+    if (response.success) {
+      return res.status(201).json({
+        success: true,
+        data: response.data,
+        message: "Fetched all summary data",
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        error: response.error || "Failed to fetch appointment summary",
+      });
+    }
+  } catch (error: any) {
+    console.error("Error in appointment get summary controller:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Internal server error",
+    });
+  }
+};
+
+// Get appointment for a specific user
+export const getUserAppointment = async (req: Request, res: Response) => {
+  try {
+    const { user_id } = req.params;
+    const response = await getUserAppointments(parseInt(user_id));
+    if (response.success) {
+      return res.status(201).json({
+        success: true,
+        data: response.data,
+      });
+    } else {
+      return res.status(201).json({
+        success: false,
+        message: response.error || "Failed to fetch appointments by user",
+      });
+    }
+  } catch (error: any) {
+    console.error("Error in appointment get by user controller:", error);
     return res.status(500).json({
       success: false,
       error: "Internal server error",
